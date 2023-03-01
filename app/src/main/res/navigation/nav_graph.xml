@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/nav_graph"
+    app:startDestination="@id/ParkingFragment">
+
+    <fragment
+        android:id="@+id/ParkingFragment"
+        android:name="com.melbourne.parking.ui.ParkingFragment"
+        android:label="Parking ">
+        <action
+            android:id="@+id/action_ParkingFragment_to_DetailFragment"
+            app:destination="@id/ParkingDetailFragment" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/MapsFragment"
+        android:name="com.melbourne.parking.MapsFragment"
+        android:label="Maps Fragment ">
+        <action
+            android:id="@+id/action_ParkingFragment_to_MapsFragment"
+            app:destination="@id/MapsFragment" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/ParkingDetailFragment"
+        android:name="com.melbourne.parking.ui.ParkingDetailFragment"
+        android:label="Parking Detail "
+        tools:layout="@layout/parking_detail_fragment">
+
+        <action
+            android:id="@+id/action_Detail_to_ParkingFragment"
+            app:destination="@id/ParkingFragment" />
+    </fragment>
+
+</navigation>

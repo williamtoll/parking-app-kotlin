@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical">
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/filter_by_credit_card_status"
+        android:textStyle="bold"
+        android:padding="16dp"/>
+
+    <RadioGroup
+        android:id="@+id/radioGroup"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:padding="16dp">
+
+        <RadioButton
+            android:id="@+id/radioButtonAll"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/all"
+            android:checked="true"/>
+
+        <RadioButton
+            android:id="@+id/radioButtonCreditCard"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/credit_card"
+            android:checked="false"/>
+
+        <RadioButton
+            android:id="@+id/radioButtonTapAndGo"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/tap_go"
+            android:checked="false"/>
+
+    </RadioGroup>
+
+<!--    <Button-->
+<!--        android:id="@+id/buttonApply"-->
+<!--        android:layout_width="match_parent"-->
+<!--        android:layout_height="wrap_content"-->
+<!--        android:text="@string/apply"-->
+<!--        android:padding="16dp"/>-->
+
+</LinearLayout>
