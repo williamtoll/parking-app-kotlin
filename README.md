@@ -1,6 +1,6 @@
 # parking-app-kotlin
 
-Parking App
+Parking App with Kotlin Android 
 
 This is a parking app that allows users to view available parking spots and filter them by credit card status, tap and go, and more.
 Features
