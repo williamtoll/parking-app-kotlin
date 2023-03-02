@@ -12,7 +12,7 @@ import java.io.IOException
 class ParkingRepository {
     private val TAG = "ParkingRepository"
 
-    suspend fun fetchParkingMeters(streetName: String, tapAndGo: String, creditCard: String ): List<ParkingMeter> {
+    suspend fun fetchParkingMeters(streetName: String, tapAndGo: String): List<ParkingMeter> {
         var req =
             "https://data.melbourne.vic.gov.au/api/records/1.0/search/?dataset=on-street-car-parking-meters-with-location&q=&facet=creditcard&facet=tapandgo&facet=streetname"
 
@@ -24,9 +24,7 @@ class ParkingRepository {
         if(!tapAndGo.isNullOrBlank()){
             req="${req}&refine.tapandgo=${tapAndGo}"
         }
-        if(!creditCard.isNullOrBlank()){
-            req="${req}&refine.creditcard=${creditCard}"
-        }
+
 
         Log.d(TAG, "fetchParkingMeters: ${req}")
 

@@ -29,11 +29,10 @@ class ParkingRecyclerViewAdapter(
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         val item = values[position]
-        holder.idView.text = if(item.hasCreditCard) "YES" else "NO"
-        holder.contentView.text = item.streetName
+        holder.contentView.text = if(item.hasCreditCard) "Credit Card Accepted" else "NO Credit Card"
+        holder.idView.text = "Street: ${item.streetName}"
         holder.itemView.setOnClickListener { listener?.onItemClick(item) }
     }
-
 
     override fun getItemCount(): Int = values.size
 

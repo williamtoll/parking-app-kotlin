@@ -3,20 +3,10 @@
     xmlns:tools="http://schemas.android.com/tools"
     tools:context="com.melbourne.parking.MainActivity">
     <item
-        android:id="@+id/action_settings"
+        android:id="@+id/map"
         android:orderInCategory="100"
-        android:title="@string/action_settings"
+        android:title="@string/map"
         app:showAsAction="never" />
 
-    <item
-        android:id="@+id/menu_filter"
-        android:title="Filter"
-        app:showAsAction="always" />
 
-    <item
-        android:id="@+id/action_search"
-        android:title="@string/search"
-
-        app:showAsAction="ifRoom|collapseActionView"
-        app:actionViewClass="android.widget.SearchView" />
 </menu>

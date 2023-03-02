@@ -23,7 +23,7 @@
     <string name="search_hint">Search</string>
     <string name="tap_go"><![CDATA[Tap & Go]]></string>
     <string name="credit_card">Credit Card</string>
-    <string name="filter_by_credit_card_status">Filter by Credit Card Status</string>
+    <string name="filter_by_credit_card_status">Filter</string>
     <string name="all">All</string>
     <string name="apply">Apply</string>
     <string name="filter_dialog_title">Filter</string>
@@ -31,4 +31,5 @@
     <string name="filter_dialog_cancel">Cancel</string>
     <string name="submit">send</string>
     <string name="title_activity_maps">MapsActivity</string>
+    <string name="map">Show Parking available on the Map</string>
 </resources>

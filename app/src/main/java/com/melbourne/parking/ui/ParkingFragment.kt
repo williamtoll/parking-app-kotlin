@@ -1,29 +1,21 @@
 package com.melbourne.parking.ui
 
-import android.app.AlertDialog
 import android.os.Bundle
-import android.text.Editable
-import android.text.TextWatcher
 import android.util.Log
 import android.view.*
 import android.widget.*
 import androidx.fragment.app.Fragment
-import androidx.fragment.app.FragmentManager
-import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
-import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.melbourne.parking.R
 import com.melbourne.parking.model.ParkingMeter
-import com.melbourne.parking.repositories.ParkingRepository
-import kotlinx.coroutines.launch
 
 /**
  * A fragment representing a list of Items.
  */
-class ParkingFragment : Fragment(), ParkingRecyclerViewAdapter.OnItemClickListener {
+class ParkingFragment : Fragment(), ParkingRecyclerViewAdapter.OnItemClickListener,
+    FilterDialogFragment.FilterDialogListener {
 
     private val TAG = "ParkingFragment"
     private var columnCount = 1
@@ -36,7 +28,7 @@ class ParkingFragment : Fragment(), ParkingRecyclerViewAdapter.OnItemClickListen
     private lateinit var searchView: EditText
     private lateinit var emptyView: TextView
     private lateinit var viewModel: ParkingViewModel
-//    private lateinit var adapter: ParkingRecyclerViewAdapter
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -44,6 +36,12 @@ class ParkingFragment : Fragment(), ParkingRecyclerViewAdapter.OnItemClickListen
         arguments?.let {
             columnCount = it.getInt(ARG_COLUMN_COUNT)
         }
+    }
+
+
+    override fun onFilterSelected(all: Boolean, tapAndGo: Boolean) {
+        Log.d(TAG, "onFilterSelected: ")
+//        viewModel.fetchParkingList("", "NO")
     }
 
     override fun onItemClick(item: ParkingMeter) {
@@ -59,9 +57,12 @@ class ParkingFragment : Fragment(), ParkingRecyclerViewAdapter.OnItemClickListen
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        ParkingViewModel().fetchParkingList("","","")
-    }
+        setHasOptionsMenu(true)
 
+        var viewModel: ParkingViewModel =
+            ViewModelProvider(this).get(ParkingViewModel::class.java)
+        viewModel.fetchParkingList("", "")
+    }
 
 
     override fun onCreateView(
@@ -76,14 +77,14 @@ class ParkingFragment : Fragment(), ParkingRecyclerViewAdapter.OnItemClickListen
         recyclerView = view.findViewById(R.id.parkingRecyclerView)
         progressBar = view.findViewById(R.id.parkingProgressBar)
         emptyView = view.findViewById(R.id.emptyView)
-        searchView = view.findViewById(R.id.searchView)
+
+        recyclerView.adapter = mAdapter
+        recyclerView.layoutManager = LinearLayoutManager(context)
 
 //        // Get the view model for this fragment
         viewModel = ViewModelProvider(this).get(ParkingViewModel::class.java)
-//
-//        // Observe changes in the list of parking meters
+
         viewModel.parkingList.observe(viewLifecycleOwner, { parkingList ->
-//            mAdapter.submitList(parkingList)
             Log.d(TAG, "viewmodel change ${parkingList}")
             mList.clear()
             mList.addAll(parkingList)
@@ -91,53 +92,29 @@ class ParkingFragment : Fragment(), ParkingRecyclerViewAdapter.OnItemClickListen
             updateEmptyViewVisibility(parkingList)
         })
 
-
-
-        // Set up search functionality
-        searchView.addTextChangedListener(object : TextWatcher {
-            override fun afterTextChanged(s: Editable?) {
-                // Filter parking list based on search query
-                filterBy(s.toString(),"","")
-            }
-
-            override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {
-                // Do nothing
-            }
-
-            override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
-                // Do nothing
-            }
-        })
-
-
-        recyclerView.adapter = mAdapter
-        recyclerView.layoutManager = LinearLayoutManager(context)
-
         return view
     }
 
 
+    override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
+        inflater.inflate(R.menu.menu_parking, menu)
 
-    fun filterBy(streetName: String, tapAndGo: String, creditCard: String) {
-        lifecycleScope.launch {
-            try {
-                val filteredList = ParkingRepository().fetchParkingMeters(streetName,tapAndGo,creditCard)
-                Log.d(TAG, "filterBy: creditcard ${creditCard} ")
+        val searchItem = menu.findItem(R.id.action_search)
+        val searchView = searchItem.actionView as SearchView
 
-                Log.d(TAG, "filterBy: filteredlist ${filteredList} ")
-
-                if(filteredList.isNotEmpty()) {
-                    mList.clear()
-                    mList.addAll(filteredList)
-                    mAdapter?.notifyDataSetChanged()
-                }else{
-                    emptyView.visibility = View.VISIBLE
-                }
-
-            } catch (e: Exception) {
-                Log.e(TAG, "Failed to fetch parking meters", e)
+        // Set up the search view
+        searchView.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
+            override fun onQueryTextSubmit(query: String): Boolean {
+                // Handle search query submission
+                return false
             }
-        }
+
+            override fun onQueryTextChange(newText: String): Boolean {
+                // Handle search query text change
+                viewModel.fetchParkingList(newText, "")
+                return true
+            }
+        })
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
@@ -150,10 +127,24 @@ class ParkingFragment : Fragment(), ParkingRecyclerViewAdapter.OnItemClickListen
         }
     }
 
-
     private fun showFilterDialog() {
         val dialog = FilterDialogFragment()
         dialog.show(childFragmentManager, "FilterDialogFragment")
+
+        dialog.setListener(object : FilterDialogFragment.FilterDialogListener {
+
+            override fun onFilterSelected(all: Boolean, tapAndGo: Boolean) {
+                if (all) {
+                    viewModel.fetchParkingList("", "")
+                } else {
+                    // For demonstration purpose of the filtering feature. We retrieve the list of parking that doesnt have creditcard and tap and go available. With this filter we can show a different list in the recycler view
+                    viewModel.fetchParkingList("", "NO")
+                }
+
+            }
+        })
+
+
     }
 
     private fun updateEmptyViewVisibility(parkingList: List<ParkingMeter>) {
@@ -163,6 +154,7 @@ class ParkingFragment : Fragment(), ParkingRecyclerViewAdapter.OnItemClickListen
             emptyView.visibility = View.GONE
         }
     }
+
 
     companion object {
 

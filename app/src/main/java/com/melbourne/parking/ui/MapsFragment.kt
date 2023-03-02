@@ -1,4 +1,4 @@
-package com.melbourne.parking
+package com.melbourne.parking.ui
 
 import androidx.fragment.app.Fragment
 
@@ -10,10 +10,10 @@ import com.google.android.gms.maps.*
 
 import com.google.android.gms.maps.model.LatLng
 import com.google.android.gms.maps.model.MarkerOptions
+import com.melbourne.parking.R
 
 class MapsFragment : Fragment(), OnMapReadyCallback  {
 
-    private lateinit var mapView: MapView
     private lateinit var googleMap: GoogleMap
 
     private val callback = OnMapReadyCallback { googleMap ->
@@ -26,9 +26,9 @@ class MapsFragment : Fragment(), OnMapReadyCallback  {
          * install it inside the SupportMapFragment. This method will only be triggered once the
          * user has installed Google Play services and returned to the app.
          */
-        val sydney = LatLng(-34.0, 151.0)
-        googleMap.addMarker(MarkerOptions().position(sydney).title("Marker in Sydney"))
-        googleMap.moveCamera(CameraUpdateFactory.newLatLng(sydney))
+        val melbourne = LatLng(-34.0, 151.0)
+        googleMap.addMarker(MarkerOptions().position(melbourne).title("Marker in Sydney"))
+        googleMap.moveCamera(CameraUpdateFactory.newLatLng(melbourne))
     }
 
     override fun onCreateView(
@@ -54,8 +54,6 @@ class MapsFragment : Fragment(), OnMapReadyCallback  {
         val melbourne = LatLng(-34.0, 151.0)
 
         googleMap.addMarker(MarkerOptions().position(melbourne).title("Marker in Sydney"))
-
-
     }
 
 

@@ -5,20 +5,13 @@ import android.os.Bundle
 import android.view.Menu
 import android.view.MenuItem
 import android.view.View
-import android.widget.Button
 import androidx.appcompat.app.AppCompatActivity
-import androidx.fragment.app.Fragment
 import androidx.navigation.findNavController
 import androidx.navigation.ui.AppBarConfiguration
 import androidx.navigation.ui.navigateUp
 import androidx.navigation.ui.setupActionBarWithNavController
-import com.google.android.gms.maps.MapFragment
-import com.google.android.gms.maps.SupportMapFragment
-import com.google.android.material.snackbar.Snackbar
 import com.melbourne.parking.databinding.ActivityMainBinding
-import com.melbourne.parking.ui.FilterDialogFragment
-import com.melbourne.parking.ui.ParkingDetailFragment
-import com.melbourne.parking.ui.ParkingFragment
+import com.melbourne.parking.ui.MapsFragment
 
 
 class MainActivity : AppCompatActivity() {
@@ -59,12 +52,7 @@ class MainActivity : AppCompatActivity() {
         // automatically handle clicks on the Home/Up button, so long
         // as you specify a parent activity in AndroidManifest.xml.
         return when (item.itemId) {
-            R.id.action_settings -> true
-            R.id.menu_filter -> {
-                FilterDialogFragment().show(supportFragmentManager, "Filter Dialog")
-                true
-            }
-            R.id.action_settings -> {
+            R.id.map -> {
                 showMapFragment()
                 true
             }
@@ -72,30 +60,11 @@ class MainActivity : AppCompatActivity() {
         }
     }
     private fun showMapFragment() {
-;
-
         val fragment = MapsFragment()
         // Open fragment
-
         getSupportFragmentManager()
             .beginTransaction().replace(R.id.nav_host_fragment_content_main,fragment)
             .commit();
-
-
-//        mapFragment?.getMapAsync { googleMap ->
-//            // Ensure all places are visible in the map
-//            googleMap.setOnMapLoadedCallback {
-//                val bounds = LatLngBounds.builder()
-//                places.forEach { bounds.include(it.latLng) }
-//                googleMap.moveCamera(CameraUpdateFactory.newLatLngBounds(bounds.build(), 20))
-//            }
-//
-//            //addMarkers(googleMap)
-//            addClusteredMarkers(googleMap)
-//
-//            // Set custom info window adapter
-//            // googleMap.setInfoWindowAdapter(MarkerInfoWindowAdapter(this))
-//        }
     }
 
 
@@ -104,6 +73,7 @@ class MainActivity : AppCompatActivity() {
         return navController.navigateUp(appBarConfiguration)
                 || super.onSupportNavigateUp()
     }
+
 }
 
 

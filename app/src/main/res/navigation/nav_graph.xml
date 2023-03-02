@@ -16,7 +16,7 @@
 
     <fragment
         android:id="@+id/MapsFragment"
-        android:name="com.melbourne.parking.MapsFragment"
+        android:name="com.melbourne.parking.ui.MapsFragment"
         android:label="Maps Fragment ">
         <action
             android:id="@+id/action_ParkingFragment_to_MapsFragment"

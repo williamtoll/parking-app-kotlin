@@ -34,7 +34,7 @@ class ParkingDetailFragment : Fragment() {
         parkingMeter = arguments?.getParcelable(ARG_PARKING_METER)!!
         val view=inflater.inflate(R.layout.parking_detail_fragment, container, false)
         view.findViewById<TextView>(R.id.streetName).text = parkingMeter?.streetName
-        view.findViewById<TextView>(R.id.creditCard).text = if(parkingMeter!!.hasCreditCard) "YES" else "NO"
+        view.findViewById<TextView>(R.id.creditCard).text = if(parkingMeter!!.hasCreditCard) "Credit Card Payment Available" else "NO CC Payment"
         return view
     }
 
