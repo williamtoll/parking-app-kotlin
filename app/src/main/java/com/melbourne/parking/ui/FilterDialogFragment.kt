@@ -16,7 +16,6 @@ import com.melbourne.parking.databinding.DialogFilterBinding
 class FilterDialogFragment() : DialogFragment() {
 
     private var _binding: DialogFilterBinding? = null
-    private val binding get() = _binding!!
 
     private lateinit var listener: FilterDialogListener
 
@@ -32,7 +31,6 @@ class FilterDialogFragment() : DialogFragment() {
     }
 
     override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
-//        _binding = DialogFilterBinding.inflate(LayoutInflater.from(context))
 
         val view = LayoutInflater.from(requireContext()).inflate(R.layout.dialog_filter, null)
 

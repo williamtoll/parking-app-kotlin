@@ -44,7 +44,5 @@ class ParkingViewModel() : ViewModel() {
         }
     }
 
-    fun getCarList() = parkingList as LiveData<List<ParkingMeter>>
-
 
 }

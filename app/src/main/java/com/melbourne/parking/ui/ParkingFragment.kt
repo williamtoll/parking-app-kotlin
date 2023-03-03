@@ -40,8 +40,6 @@ class ParkingFragment : Fragment(), ParkingRecyclerViewAdapter.OnItemClickListen
 
 
     override fun onFilterSelected(all: Boolean, tapAndGo: Boolean) {
-        Log.d(TAG, "onFilterSelected: ")
-//        viewModel.fetchParkingList("", "NO")
     }
 
     override fun onItemClick(item: ParkingMeter) {
@@ -81,11 +79,9 @@ class ParkingFragment : Fragment(), ParkingRecyclerViewAdapter.OnItemClickListen
         recyclerView.adapter = mAdapter
         recyclerView.layoutManager = LinearLayoutManager(context)
 
-//        // Get the view model for this fragment
         viewModel = ViewModelProvider(this).get(ParkingViewModel::class.java)
 
         viewModel.parkingList.observe(viewLifecycleOwner, { parkingList ->
-            Log.d(TAG, "viewmodel change ${parkingList}")
             mList.clear()
             mList.addAll(parkingList)
             mAdapter?.notifyDataSetChanged()
